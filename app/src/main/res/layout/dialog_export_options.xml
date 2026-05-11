@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="?android:colorBackgroundFloating">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Export Inventory"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
+        android:layout_marginBottom="24dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExportPdf"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Export as PDF"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        app:icon="@drawable/ic_pdf"
+        app:iconPadding="16dp"
+        android:layout_marginBottom="12dp"
+        app:strokeColor="?android:textColorSecondary"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExportExcel"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Export as Excel"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        app:icon="@drawable/ic_excel"
+        app:iconPadding="16dp"
+        android:layout_marginBottom="12dp"
+        app:strokeColor="?android:textColorSecondary"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShareReport"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Share Report"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        app:icon="@drawable/ic_share"
+        app:iconPadding="16dp"
+        app:strokeColor="?android:textColorSecondary"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

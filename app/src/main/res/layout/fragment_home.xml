@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
+
+    <!-- SCROLLABLE CONTENT -->
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- HEADER -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:orientation="vertical"
+                android:background="@drawable/header_bg"
+
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="50dp"
+                android:paddingBottom="20dp">
+
+                <!-- TOP ROW -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- PROFILE -->
+
+                    <ImageView
+                        android:id="@+id/imgDashboardProfile"
+
+                        android:layout_width="58dp"
+
+                        android:layout_height="58dp"
+
+                        android:src="@drawable/profile_placeholder"
+
+                        android:scaleType="centerCrop"
+
+                        android:background="@drawable/profile_circle_bg"
+
+                        android:padding="2dp"/>
+
+                    <!-- TEXT SECTION -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <!-- HEY TEXT -->
+
+                        <TextView
+                            android:id="@+id/tvHeyText"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/hey_abhishek"
+
+                            android:textSize="24sp"
+
+                            android:textStyle="bold"
+
+                            android:textColor="@android:color/white"/>
+
+                        <!-- GREETING -->
+
+                        <TextView
+                            android:id="@+id/tvGreeting"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Good Evening 🌙"
+
+                            android:textSize="16sp"
+
+                            android:textColor="#E3F2FD"
+
+                            android:layout_marginTop="4dp"/>
+
+                        <!-- ANIMATED TEXT -->
+
+                        <TextView
+                            android:id="@+id/tvAnimatedText"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/manage_smarter"
+
+                            android:textSize="15sp"
+
+                            android:textStyle="bold"
+
+                            android:textColor="#B3E5FC"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- NOTIFICATION -->
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivNotification"
+
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+
+                            android:padding="4dp"
+
+                            android:src="@drawable/ic_notifications"
+
+                            android:tint="@android:color/white"/>
+                        <!-- BADGE -->
+
+                        <TextView
+                            android:id="@+id/tvBadge"
+
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+
+                            android:layout_gravity="top|end"
+
+                            android:gravity="center"
+
+                            android:text="0"
+
+                            android:textSize="11sp"
+
+                            android:textStyle="bold"
+
+                            android:textColor="@android:color/white"
+
+                            android:background="@drawable/badge_bg"/>
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- SUMMARY CARD -->
+
+            <LinearLayout
+                android:id="@+id/analyticsCard"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="-40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+
+                android:orientation="vertical"
+
+                android:background="?android:colorBackgroundFloating"
+
+                android:padding="16dp"
+
+                android:elevation="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/total_items"
+
+                    android:textSize="13sp"
+
+                    android:textColor="?android:textColorSecondary"/>
+
+                <TextView
+                    android:id="@+id/tvTotalItems"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="0"
+
+                    android:textSize="26sp"
+
+                    android:textStyle="bold"
+
+                    android:textColor="?android:textColorPrimary"
+
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/tvTotalValue"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="₹0"
+
+                    android:textSize="14sp"
+
+                    android:textColor="?android:textColorSecondary"
+
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- MAIN CONTENT -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:padding="16dp">
+
+                <!-- SEARCH -->
+
+                <FrameLayout
+                    android:id="@+id/searchContainer"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="12dp"/>
+
+
+
+                <!-- QUICK ACTIONS TITLE -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal"
+
+                    android:gravity="center_vertical"
+
+                    android:layout_marginTop="18dp"
+
+                    android:layout_marginBottom="12dp">
+
+                    <!-- QUICK ACTIONS -->
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+
+                        android:text="@string/quick_actions"
+
+                        android:textStyle="bold"
+
+                        android:textSize="18sp"
+
+                        android:textColor="?android:textColorPrimary"/>
+
+                    <!-- MORE BUTTON -->
+
+                    <TextView
+                        android:id="@+id/tvMoreActions"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/more"
+
+                        android:textStyle="bold"
+
+                        android:textSize="14sp"
+
+                        android:textColor="?android:textColorPrimary"/>
+                </LinearLayout>
+                <!-- QUICK ACTIONS ROW -->
+
+                <!-- MAIN ACTION GRID -->
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:columnCount="4"
+
+                    android:layout_marginTop="6dp"
+
+                    android:alignmentMode="alignMargins"
+
+                    android:useDefaultMargins="false">
+
+                    <!-- ADD ITEM -->
+
+                    <LinearLayout
+                        android:id="@+id/actionAdd"
+
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_blue_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="➕"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/add"
+
+                            android:textStyle="bold"
+
+                            android:textSize="12sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- REPORTS -->
+
+                    <LinearLayout
+                        android:id="@+id/actionReports"
+
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_purple_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="📊"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/reports"
+
+                            android:textStyle="bold"
+
+                            android:textSize="12sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- ALERTS -->
+
+                    <LinearLayout
+                        android:id="@+id/actionAlerts"
+
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_red_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="⚠"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/alerts"
+
+                            android:textStyle="bold"
+
+                            android:textSize="12sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- CATEGORY -->
+
+                    <LinearLayout
+                        android:id="@+id/actionCategory"
+
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_green_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="📂"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/category"
+
+                            android:textStyle="bold"
+
+                            android:textSize="11sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                </GridLayout>
+
+
+                <!-- EXPANDABLE ACTIONS -->
+
+                <GridLayout
+                    android:id="@+id/moreActionsLayout"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:columnCount="4"
+
+                    android:layout_marginTop="10dp"
+
+                    android:visibility="gone"
+
+                    android:alignmentMode="alignMargins">
+
+                    <!-- EXPORT -->
+
+                    <LinearLayout
+                        android:id="@+id/actionExport"
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_orange_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="📤"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Export"
+
+                            android:textStyle="bold"
+
+                            android:textSize="11sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- BACKUP -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_blue_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="☁"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Backup"
+
+                            android:textStyle="bold"
+
+                            android:textSize="11sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- AI -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_purple_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="🤖"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="AI"
+
+                            android:textStyle="bold"
+
+                            android:textSize="11sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- SETTINGS -->
+
+                    <LinearLayout
+                        android:id="@+id/actionSettings"
+                        android:layout_width="0dp"
+                        android:layout_height="95dp"
+
+                        android:layout_columnWeight="1"
+
+                        android:orientation="vertical"
+
+                        android:gravity="center"
+
+                        android:padding="8dp"
+
+                        android:layout_margin="4dp"
+
+                        android:background="@drawable/action_red_bg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="⚙"
+
+                            android:textSize="22sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Settings"
+
+                            android:textStyle="bold"
+
+                            android:textSize="11sp"
+
+                            android:textColor="@android:color/white"
+
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                </GridLayout>
+
+                <!-- RECENT ITEMS TITLE -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/recent_items"
+
+                    android:textSize="20sp"
+
+                    android:textStyle="bold"
+
+                    android:textColor="?android:textColorPrimary"
+
+                    android:layout_marginTop="24dp"
+
+                    android:layout_marginBottom="2dp"/>
+
+                <!-- RECYCLER -->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="250dp"
+
+                    android:layout_marginTop="16dp"/>
+
+
+            <!--                🤖 Smart Insights-->
+
+                <!-- SMART INSIGHTS -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical"
+
+                    android:background="@drawable/insight_bg"
+
+                    android:padding="20dp"
+
+                    android:layout_marginTop="16dp"
+
+                    android:layout_marginBottom="10dp">
+
+                    <!-- TITLE -->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/smart_insights"
+
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"
+
+                        android:textColor="@android:color/white"/>
+
+                    <!-- INSIGHT 1 -->
+
+                    <TextView
+                        android:id="@+id/tvInsight1"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="• Inventory looking healthy"
+
+                        android:textSize="15sp"
+
+                        android:textColor="#E3F2FD"
+
+                        android:layout_marginTop="16dp"/>
+
+                    <!-- INSIGHT 2 -->
+
+                    <TextView
+                        android:id="@+id/tvInsight2"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="• Grocery dominating inventory"
+
+                        android:textSize="15sp"
+
+                        android:textColor="#E3F2FD"
+
+                        android:layout_marginTop="10dp"/>
+
+                    <!-- INSIGHT 3 -->
+
+                    <TextView
+                        android:id="@+id/tvInsight3"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="• Stock updates active"
+
+                        android:textSize="15sp"
+
+                        android:textColor="#E3F2FD"
+
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+
+                <!-- CATEGORY SECTION -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical"
+
+                    android:layout_marginTop="20dp"
+
+                    android:background="@drawable/category_section_bg"
+
+                    android:paddingTop="16dp"
+
+                    android:paddingBottom="20dp">
+
+                    <!-- TITLE -->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/categories"
+
+                        android:textSize="18sp"
+
+                        android:textStyle="bold"
+
+                        android:textColor="@android:color/white"
+
+                        android:paddingStart="16dp"
+
+                        android:paddingEnd="16dp"/>
+
+                    <!-- GRID -->
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:columnCount="2"
+
+                        android:layout_marginTop="10dp"
+
+                        android:paddingStart="8dp"
+
+                        android:paddingEnd="8dp">
+
+                        <!-- GROCERY -->
+
+                        <LinearLayout
+                            android:id="@+id/cardGrocery"
+
+                            android:layout_width="0dp"
+
+                            android:layout_height="170dp"
+
+                            android:layout_columnWeight="1"
+
+                            android:orientation="vertical"
+
+                            android:gravity="center"
+
+                            android:padding="12dp"
+
+                            android:layout_margin="8dp"
+
+                            android:background="@drawable/grocery_bg">
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:src="@drawable/ic_grocery"
+                                android:scaleType="centerInside"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/grocery"
+
+                                android:textStyle="bold"
+
+                                android:textColor="@android:color/white"
+
+                                android:textSize="16sp"
+
+                                android:textAlignment="center"
+
+                                android:layout_marginTop="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/daily_essentials"
+
+                                android:textSize="12sp"
+
+                                android:textColor="#E8F5E9"
+
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+                        <!-- ELECTRONICS -->
+
+                        <LinearLayout
+                            android:id="@+id/cardElectronics"
+
+                            android:layout_width="0dp"
+
+                            android:layout_height="170dp"
+
+                            android:layout_columnWeight="1"
+
+                            android:orientation="vertical"
+
+                            android:gravity="center"
+
+                            android:padding="12dp"
+
+                            android:layout_margin="8dp"
+
+                            android:background="@drawable/electronics_bg">
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:src="@drawable/electronics"
+                                android:scaleType="centerInside"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/electronics"
+
+                                android:textStyle="bold"
+
+                                android:textColor="@android:color/white"
+
+                                android:textSize="16sp"
+
+                                android:textAlignment="center"
+
+                                android:layout_marginTop="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/smart_devices"
+
+                                android:textSize="12sp"
+
+                                android:textColor="#E3F2FD"
+
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+                        <!-- PERSONAL CARE -->
+
+                        <LinearLayout
+                            android:id="@+id/cardPersonal"
+
+                            android:layout_width="0dp"
+
+                            android:layout_height="170dp"
+
+                            android:layout_columnWeight="1"
+
+                            android:orientation="vertical"
+
+                            android:gravity="center"
+
+                            android:padding="12dp"
+
+                            android:layout_margin="8dp"
+
+                            android:background="@drawable/personal_bg">
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:src="@drawable/personal_care"
+                                android:scaleType="centerInside"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/personal_care"
+
+                                android:textStyle="bold"
+
+                                android:textColor="@android:color/white"
+
+                                android:textSize="16sp"
+
+                                android:textAlignment="center"
+
+                                android:layout_marginTop="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/self_care"
+
+                                android:textSize="12sp"
+
+                                android:textColor="#FCE4EC"
+
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+                        <!-- STATIONERY -->
+
+                        <LinearLayout
+                            android:id="@+id/cardStationery"
+
+                            android:layout_width="0dp"
+
+                            android:layout_height="170dp"
+
+                            android:layout_columnWeight="1"
+
+                            android:orientation="vertical"
+
+                            android:gravity="center"
+
+                            android:padding="12dp"
+
+                            android:layout_margin="8dp"
+
+                            android:background="@drawable/stationery_bg">
+
+                            <ImageView
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:src="@drawable/stationary"
+                                android:scaleType="centerInside"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/stationery"
+
+                                android:textStyle="bold"
+
+                                android:textColor="@android:color/white"
+
+                                android:textSize="16sp"
+
+                                android:textAlignment="center"
+
+                                android:layout_marginTop="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/office_study"
+
+                                android:textSize="12sp"
+
+                                android:textColor="#F3E5F5"
+
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+                    </GridLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- FAB -->
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabAdd"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/add"
+
+        android:textStyle="bold"
+
+        android:textColor="@android:color/white"
+
+        android:layout_marginEnd="20dp"
+
+        android:layout_marginBottom="40dp"
+
+        android:elevation="12dp"
+
+        android:layout_gravity="bottom|end"
+
+        android:backgroundTint="#C2185B"
+
+        app:icon="@android:drawable/ic_input_add"
+
+        app:iconTint="@android:color/white"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

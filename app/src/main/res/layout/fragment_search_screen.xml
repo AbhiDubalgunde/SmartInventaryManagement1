@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+
+    android:layout_marginTop="30dp"
+
+    android:background="?android:colorBackground"
+
+    android:padding="16dp">
+
+    <!-- SEARCH BAR -->
+
+    <EditText
+        android:id="@+id/etNewsSearch"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="52dp"
+
+        android:background="@drawable/search_bg"
+
+        android:hint="@string/search_news_hint"
+
+        android:paddingStart="16dp"
+
+        android:paddingEnd="16dp"
+
+        android:drawableStart="@android:drawable/ic_menu_search"
+
+        android:drawablePadding="10dp"
+
+        android:textColor="?android:textColorPrimary"
+
+        android:textColorHint="?android:textColorHint"
+
+        android:singleLine="true"
+
+        android:imeOptions="actionSearch"
+
+        android:inputType="text"/>
+
+    <!-- TITLE -->
+
+    <TextView
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/trending_news"
+
+        android:textSize="20sp"
+
+        android:textStyle="bold"
+
+        android:textColor="?android:textColorPrimary"
+
+        android:layout_marginTop="20dp"
+
+        android:layout_marginBottom="12dp"/>
+
+    <!-- NEWS LIST -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerNews"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

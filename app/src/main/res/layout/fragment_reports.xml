@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:background="?android:colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+
+        android:layout_marginTop="20dp"
+        android:padding="20dp">
+
+        <!-- TITLE -->
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="@string/inventory_reports"
+
+            android:textSize="30sp"
+
+            android:textStyle="bold"
+
+            android:textColor="?android:textColorPrimary"/>
+
+        <!-- UPDATED -->
+
+        <TextView
+            android:id="@+id/tvUpdated"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Updated just now"
+
+            android:textSize="13sp"
+
+            android:textColor="?android:textColorSecondary"
+
+            android:layout_marginTop="4dp"
+
+            android:layout_marginBottom="20dp"/>
+
+        <!-- SUMMARY CARDS -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+
+            android:weightSum="2">
+
+            <!-- TOTAL ITEMS -->
+
+            <LinearLayout
+                android:layout_width="0dp"
+
+                android:layout_height="110dp"
+
+                android:layout_weight="1"
+
+                android:orientation="vertical"
+
+                android:background="@drawable/tile_bg"
+
+                android:padding="16dp"
+
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/total_items"
+
+                    android:textColor="?android:textColorSecondary"
+
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tvTotalItems"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="0"
+
+                    android:textStyle="bold"
+
+                    android:textSize="28sp"
+
+                    android:textColor="?android:textColorPrimary"
+
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <!-- LOW STOCK -->
+
+            <LinearLayout
+                android:layout_width="0dp"
+
+                android:layout_height="110dp"
+
+                android:layout_weight="1"
+
+                android:orientation="vertical"
+
+                android:background="@drawable/tile_bg"
+
+                android:padding="16dp"
+
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/low_stock"
+
+                    android:textColor="?android:textColorSecondary"
+
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tvLowStock"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="0"
+
+                    android:textStyle="bold"
+
+                    android:textSize="28sp"
+
+                    android:textColor="#F44336"
+
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- INVENTORY VALUE -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="110dp"
+
+            android:orientation="vertical"
+
+            android:background="@drawable/tile_bg"
+
+            android:padding="16dp"
+
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/inventory_value"
+
+                android:textColor="?android:textColorSecondary"
+
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/tvInventoryValue"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="₹0"
+
+                android:textStyle="bold"
+
+                android:textSize="28sp"
+
+                android:textColor="#00C853"
+
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+        <!-- PIE CHART -->
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="380dp"
+
+            android:layout_marginTop="24dp"/>
+
+
+        <!-- BAR CHART -->
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="320dp"
+
+            android:layout_marginTop="24dp"/>
+        <!-- TOP CATEGORY -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:background="@drawable/tile_bg"
+
+            android:padding="16dp"
+
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/top_category"
+
+                android:textStyle="bold"
+
+                android:textSize="18sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvTopCategory"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="Grocery"
+
+                android:textSize="15sp"
+
+                android:textColor="?android:textColorSecondary"
+
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- INVENTORY HEALTH -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:background="@drawable/tile_bg"
+
+            android:padding="16dp"
+
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/inventory_health"
+
+                android:textStyle="bold"
+
+                android:textSize="18sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvHealth"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="Excellent"
+
+                android:textSize="15sp"
+
+                android:textColor="?android:textColorSecondary"
+
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- LOW STOCK ALERTS -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:background="@drawable/tile_bg"
+
+            android:padding="16dp"
+
+            android:layout_marginTop="20dp"
+
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/low_stock_alerts"
+
+                android:textStyle="bold"
+
+                android:textSize="18sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvAlerts"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="No alerts"
+
+                android:textSize="15sp"
+
+                android:textColor="?android:textColorSecondary"
+
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:background="?android:colorBackground">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+
+        android:padding="20dp">
+
+        <!-- PROFILE CARD -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:gravity="center"
+
+            android:padding="24dp"
+
+            android:background="?android:colorBackgroundFloating">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+
+                android:layout_width="100dp"
+
+                android:layout_height="100dp"
+
+                android:src="@drawable/profile_placeholder"
+
+                android:scaleType="centerCrop"
+
+                android:background="@drawable/profile_circle_bg"
+
+                android:padding="3dp"
+
+                android:clickable="true"
+
+                android:focusable="true"/>
+
+
+            <TextView
+                android:id="@+id/tvUsername"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/username"
+
+                android:textSize="22sp"
+
+                android:textStyle="bold"
+
+                android:textColor="?android:textColorPrimary"
+
+                android:layout_marginTop="14dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/inventory_manager"
+
+                android:textSize="14sp"
+
+                android:textColor="?android:textColorSecondary"
+
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- SETTINGS -->
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="@string/settings"
+
+            android:textSize="20sp"
+
+            android:textStyle="bold"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:layout_marginTop="24dp"
+
+            android:layout_marginBottom="14dp"/>
+
+        <!-- LANGUAGE CARD -->
+
+        <LinearLayout
+            android:id="@+id/btnLanguage"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+
+            android:padding="16dp"
+
+            android:gravity="center_vertical"
+
+            android:background="?android:colorBackgroundFloating"
+
+            android:layout_marginBottom="12dp"
+
+            android:clickable="true"
+
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+
+                android:text="@string/language"
+
+                android:textSize="16sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvLanguage"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="@string/english"
+
+                android:textColor="?android:textColorSecondary"/>
+        </LinearLayout>
+
+        <!-- ABOUT CARD -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+
+            android:padding="16dp"
+
+            android:gravity="center_vertical"
+
+            android:background="?android:colorBackgroundFloating"
+
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+
+                android:text="@string/about_app"
+
+                android:textSize="16sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="v1.0"
+
+                android:textColor="?android:textColorSecondary"/>
+        </LinearLayout>
+
+        <!-- DARK MODE -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+
+            android:padding="16dp"
+
+            android:gravity="center_vertical"
+
+            android:background="?android:colorBackgroundFloating"
+
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+
+                android:text="@string/dark_mode"
+
+                android:textSize="16sp"
+
+                android:textColor="?android:textColorPrimary"/>
+
+            <Switch
+                android:id="@+id/switchDarkMode"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- LOGOUT -->
+
+        <Button
+            android:id="@+id/btnLogout"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="52dp"
+
+            android:text="@string/logout"
+
+            android:textColor="@android:color/white"
+
+            android:backgroundTint="#E53935"
+
+            android:layout_marginTop="30dp"/>
+    </LinearLayout>
+
+</ScrollView>

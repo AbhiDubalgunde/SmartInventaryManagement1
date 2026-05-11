@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+
+    android:gravity="center"
+
+    android:padding="24dp"
+
+    android:background="@color/light_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/create_account"
+
+        android:textSize="30sp"
+
+        android:textStyle="bold"
+
+        android:textColor="@color/black"
+
+        android:layout_marginBottom="40dp"/>
+
+    <EditText
+        android:id="@+id/etRegisterUsername"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="52dp"
+
+        android:hint="@string/create_username"
+
+        android:background="@drawable/search_bg"
+
+        android:paddingStart="16dp"
+
+        android:textColor="@color/black"
+
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etRegisterPassword"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="52dp"
+
+        android:hint="@string/create_password"
+
+        android:inputType="textPassword"
+
+        android:background="@drawable/search_bg"
+
+        android:paddingStart="16dp"
+
+        android:textColor="@color/black"
+
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btnRegister"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="52dp"
+
+        android:text="@string/register"
+
+        android:textColor="@android:color/white"
+
+        android:backgroundTint="@color/secondary"/>
+</LinearLayout>

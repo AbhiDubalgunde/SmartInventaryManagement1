@@ -1,0 +1,8 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+
+//    room db
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
+
+}

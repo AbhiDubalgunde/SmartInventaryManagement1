@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:background="?android:colorBackground">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+
+        android:padding="20dp">
+
+        <!-- TITLE -->
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="@string/add_item"
+
+            android:textStyle="bold"
+
+            android:textSize="24sp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:layout_marginBottom="24dp"/>
+
+        <!-- ITEM NAME -->
+
+        <EditText
+            android:id="@+id/etName"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:hint="@string/item_name"
+
+            android:background="@drawable/search_bg"
+
+            android:paddingStart="16dp"
+
+            android:paddingEnd="16dp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:textColorHint="?android:textColorHint"
+
+            android:layout_marginBottom="16dp"/>
+
+        <!-- QUANTITY -->
+
+        <EditText
+            android:id="@+id/etQuantity"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:hint="@string/quantity"
+
+            android:inputType="number"
+
+            android:background="@drawable/search_bg"
+
+            android:paddingStart="16dp"
+
+            android:paddingEnd="16dp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:textColorHint="?android:textColorHint"
+
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PRICE -->
+
+        <EditText
+            android:id="@+id/etPrice"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:hint="@string/price"
+
+            android:inputType="numberDecimal"
+
+            android:background="@drawable/search_bg"
+
+            android:paddingStart="16dp"
+
+            android:paddingEnd="16dp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:textColorHint="?android:textColorHint"
+
+            android:layout_marginBottom="16dp"/>
+
+        <!-- CATEGORY -->
+
+        <Spinner
+            android:id="@+id/spCategory"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:background="@drawable/search_bg"
+
+            android:paddingStart="12dp"
+
+            android:paddingEnd="12dp"
+
+            android:layout_marginBottom="24dp"/>
+
+        <!-- IMAGE PREVIEW -->
+
+        <ImageView
+            android:id="@+id/imgPreview"
+
+            android:layout_width="120dp"
+
+            android:layout_height="120dp"
+
+            android:layout_gravity="center"
+
+            android:src="@drawable/ic_grocery"
+
+            android:scaleType="centerCrop"
+
+            android:background="@drawable/search_bg"
+
+            android:padding="8dp"
+
+            android:layout_marginBottom="14dp"/>
+
+        <!-- SELECT IMAGE BUTTON -->
+
+        <Button
+            android:id="@+id/btnSelectImage"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:text="@string/select_item_image"
+
+            android:textStyle="bold"
+
+            android:textColor="@android:color/white"
+
+            android:backgroundTint="#3F51B5"
+
+            android:layout_marginBottom="20dp"/>
+
+        <!-- SAVE BUTTON -->
+
+        <Button
+            android:id="@+id/btnSave"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:text="@string/save_item"
+
+            android:textStyle="bold"
+
+            android:textColor="@android:color/white"
+
+            android:backgroundTint="@color/secondary"/>
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/etSearch"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/search_bg"
+    android:hint="@string/search_hint"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:drawableStart="@android:drawable/ic_menu_search"
+    android:drawablePadding="8dp"
+    android:textColor="@color/text_primary"
+    android:textColorHint="@color/text_hint"/>
