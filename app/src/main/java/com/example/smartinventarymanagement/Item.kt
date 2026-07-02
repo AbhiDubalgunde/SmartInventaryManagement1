@@ -19,5 +19,8 @@ data class Item(
 
     val isLowStock: Boolean,
 
-    val imageUri: String? = null
+    val imageUri: String? = null,
+
+    // ✅ NEW FIELD
+    val expiryDate: String? = null
 )

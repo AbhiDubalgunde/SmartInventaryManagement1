@@ -61,6 +61,15 @@
     <string name="search_hint">Search items...</string>
     <string name="search_news_hint">Search Inventory News…</string>
     <string name="trending_news">Trending Inventory News</string>
+
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="verify_identity">Please verify your identity</string>
+    <string name="too_many_attempts">Too many failed attempts. Please enter your password.</string>
+    <string name="biometric_description">Use your fingerprint or face to login</string>
+    <string name="biometric_error">Biometric authentication error</string>
+    <string name="biometric_failed">Biometric authentication failed</string>
+    <string name="use_password">Use Password</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
 </resources>-->
 
 <resources>
@@ -84,7 +93,7 @@
     <string name="quick_actions">Quick Actions</string>
     <string name="more">More ▼</string>
     <string name="less">Less ▲</string>
-    <string name="add">Add</string>
+    <string name="add">Add Item</string>
     <string name="reports">Reports</string>
     <string name="alerts">Alerts</string>
     <string name="category">Category</string>
@@ -170,5 +179,49 @@
     <string name="search_hint">Search items...</string>
     <string name="search_news_hint">Search Inventory News…</string>
     <string name="trending_news">Trending Inventory News</string>
+
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="verify_identity">Please verify your identity</string>
+    <string name="too_many_attempts">Too many failed attempts. Please enter your password.</string>
+    <string name="biometric_description">Use your fingerprint or face to login</string>
+    <string name="biometric_error">Biometric authentication error</string>
+    <string name="biometric_failed">Biometric authentication failed</string>
+    <string name="use_password">Use Password</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="no_items_found">No items found</string>
+    <string name="start_adding_items">Start adding items to your inventory!</string>
+    <string name="add_first_item">Add Your First Item</string>
+    <string name="hey_user">Hey %1$s 👋</string>
+    <string name="export">Export</string>
+    <string name="backup">Backup</string>
+    <string name="ai_tool">AI Tool</string>
+    <string name="see_all">See All</string>
+    <string name="search_inventory_hint">Search inventory...</string>
+    <string name="ai_insights_soon">AI Insights coming soon!</string>
+    <string name="enable_fingerprint_login">Enable Fingerprint Login</string>
+    <string name="biometric_prompt_msg">Would you like to enable Fingerprint Login for quicker access next time?</string>
+    <string name="enable">Enable</string>
+    <string name="later">Later</string>
+    <string name="biometric_enabled">Fingerprint Login Enabled</string>
+    <string name="backup_options">Backup Options</string>
+    <string name="create_backup">Create Backup</string>
+    <string name="restore_backup">Restore Backup</string>
+    <string name="share_backup">Share Backup</string>
+    <string name="backup_failed">Backup failed</string>
+    <string name="backup_restored">Backup restored 🔥</string>
+    <string name="cancel">Cancel</string>
+    <string name="items_stat">📦 Items</string>
+    <string name="value_stat">💰 Value</string>
+    <string name="all_items">All Items</string>
+    <string name="developer_tools">Developer Tools</string>
+    <string name="phone_number_hint">Enter 10-digit Phone Number</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="otp_hint">Enter 6-digit OTP</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="otp_sent_to">OTP sent to +91 %1$s</string>
+    <string name="invalid_phone">Please enter a valid 10-digit phone number</string>
+    <string name="invalid_otp">Invalid OTP. Please try again.</string>
+    <string name="otp_verified">OTP Verified Successfully</string>
+    <string name="admin_verification">Admin Verification</string>
 </resources>
 

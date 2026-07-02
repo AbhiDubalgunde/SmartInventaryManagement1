@@ -6,7 +6,7 @@ import androidx.room.*
 interface ItemDao {
 
     @Insert
-    suspend fun insert(item: Item)
+    suspend fun insert(item: Item): Long
 
     @Query("SELECT * FROM items")
     suspend fun getAllItems(): List<Item>

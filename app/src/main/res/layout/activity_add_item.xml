@@ -126,6 +126,47 @@
 
             android:layout_marginBottom="24dp"/>
 
+
+        <!-- EXPIRY DATE -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Expiry Date"
+
+            android:textStyle="bold"
+
+            android:textSize="15sp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvExpiryDate"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="56dp"
+
+            android:gravity="center_vertical"
+
+            android:paddingStart="16dp"
+
+            android:paddingEnd="16dp"
+
+            android:text="Select Expiry Date"
+
+            android:textSize="16sp"
+
+            android:textColor="?android:textColorPrimary"
+
+            android:background="@drawable/search_bg"
+
+            android:layout_marginBottom="20dp"/>
+
+
         <!-- IMAGE PREVIEW -->
 
         <ImageView

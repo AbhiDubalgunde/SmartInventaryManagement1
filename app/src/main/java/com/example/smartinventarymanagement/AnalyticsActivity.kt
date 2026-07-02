@@ -3,132 +3,383 @@ package com.example.smartinventarymanagement
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
-class AnalyticsActivity : AppCompatActivity() {
+class AnalyticsActivity : BaseActivity() {
 
     private lateinit var pieChart: PieChart
 
-    private lateinit var db: AppDatabase
-
     private lateinit var itemDao: ItemDao
 
+    private lateinit var tvAnalyticsTitle: TextView
+
+    private lateinit var tvLegendElectronics: TextView
+    private lateinit var tvLegendGrocery: TextView
+    private lateinit var tvLegendPersonal: TextView
+    private lateinit var tvLegendStationery: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_analytics)
 
-        pieChart = findViewById(R.id.pieChart)
+        pieChart =
+            findViewById(R.id.pieChart)
 
-        val db = DatabaseProvider.getDatabase(this)
+        tvAnalyticsTitle =
+            findViewById(R.id.tvAnalyticsTitle)
 
-        itemDao = db.itemDao()
+        tvLegendElectronics =
+            findViewById(R.id.tvLegendElectronics)
 
-        loadChartData()
+        tvLegendGrocery =
+            findViewById(R.id.tvLegendGrocery)
+
+        tvLegendPersonal =
+            findViewById(R.id.tvLegendPersonal)
+
+        tvLegendStationery =
+            findViewById(R.id.tvLegendStationery)
+
+        val db =
+            DatabaseProvider.getDatabase(this)
+
+        itemDao =
+            db.itemDao()
+
+        val analyticsType =
+            intent.getStringExtra(
+                "analytics_type"
+            ) ?: "items"
+
+        loadChartData(analyticsType)
     }
 
-    private fun loadChartData() {
+    private fun loadChartData(
+        type: String
+    ) {
 
         lifecycleScope.launch {
 
-            val items = itemDao.getAllItems()
+            val items =
+                itemDao.getAllItems()
 
-            val groceryTotal = items
-                .filter { it.category == "Grocery" }
-                .sumOf { it.quantity }
+            val grocery =
+                items.filter {
+                    it.category == "Grocery"
+                }
 
-            val electronicsTotal = items
-                .filter { it.category == "Electronics" }
-                .sumOf { it.quantity }
+            val electronics =
+                items.filter {
+                    it.category == "Electronics"
+                }
 
-            val personalTotal = items
-                .filter { it.category == "Personal Care" }
-                .sumOf { it.quantity }
+            val personal =
+                items.filter {
+                    it.category == "Personal Care"
+                }
 
-            val stationeryTotal = items
-                .filter { it.category == "Stationery" }
-                .sumOf { it.quantity }
+            val stationery =
+                items.filter {
+                    it.category == "Stationery"
+                }
 
-            val entries = ArrayList<PieEntry>()
+            val entries =
+                ArrayList<PieEntry>()
 
-            if (groceryTotal > 0) {
-                entries.add(PieEntry(groceryTotal.toFloat(), getString(R.string.grocery)))
+            if (type == "items") {
+
+                tvAnalyticsTitle.text =
+                    "Inventory Distribution"
+
+                val groceryTotal =
+                    grocery.sumOf { it.quantity }
+
+                val electronicsTotal =
+                    electronics.sumOf { it.quantity }
+
+                val personalTotal =
+                    personal.sumOf { it.quantity }
+
+                val stationeryTotal =
+                    stationery.sumOf { it.quantity }
+
+                tvLegendElectronics.text =
+                    "🟦 Electronics   $electronicsTotal Items"
+
+                tvLegendGrocery.text =
+                    "🟩 Grocery   $groceryTotal Items"
+
+                tvLegendPersonal.text =
+                    "🟧 Personal Care   $personalTotal Items"
+
+                tvLegendStationery.text =
+                    "🟥 Stationery   $stationeryTotal Items"
+
+                if (groceryTotal > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            groceryTotal.toFloat(),
+                            "Grocery"
+                        )
+                    )
+                }
+
+                if (electronicsTotal > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            electronicsTotal.toFloat(),
+                            "Electronics"
+                        )
+                    )
+                }
+
+                if (personalTotal > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            personalTotal.toFloat(),
+                            "Personal Care"
+                        )
+                    )
+                }
+
+                if (stationeryTotal > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            stationeryTotal.toFloat(),
+                            "Stationery"
+                        )
+                    )
+                }
+
+                pieChart.centerText =
+                    "Items"
+
+            } else {
+
+                tvAnalyticsTitle.text =
+                    "Value Distribution"
+
+                val groceryValue =
+                    grocery.sumOf {
+                        it.price * it.quantity
+                    }
+
+                val electronicsValue =
+                    electronics.sumOf {
+                        it.price * it.quantity
+                    }
+
+                val personalValue =
+                    personal.sumOf {
+                        it.price * it.quantity
+                    }
+
+                val stationeryValue =
+                    stationery.sumOf {
+                        it.price * it.quantity
+                    }
+
+                tvLegendElectronics.text =
+                    "🟦 Electronics   ${
+                        formatValue(electronicsValue)
+                    }"
+
+                tvLegendGrocery.text =
+                    "🟩 Grocery   ${
+                        formatValue(groceryValue)
+                    }"
+
+                tvLegendPersonal.text =
+                    "🟧 Personal Care   ${
+                        formatValue(personalValue)
+                    }"
+
+                tvLegendStationery.text =
+                    "🟥 Stationery   ${
+                        formatValue(stationeryValue)
+                    }"
+
+                if (groceryValue > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            groceryValue.toFloat(),
+                            "Grocery"
+                        )
+                    )
+                }
+
+                if (electronicsValue > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            electronicsValue.toFloat(),
+                            "Electronics"
+                        )
+                    )
+                }
+
+                if (personalValue > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            personalValue.toFloat(),
+                            "Personal Care"
+                        )
+                    )
+                }
+
+                if (stationeryValue > 0) {
+
+                    entries.add(
+                        PieEntry(
+                            stationeryValue.toFloat(),
+                            "Stationery"
+                        )
+                    )
+                }
+
+                pieChart.centerText =
+                    "Value"
             }
 
-            if (electronicsTotal > 0) {
-                entries.add(PieEntry(electronicsTotal.toFloat(), getString(R.string.electronics)))
-            }
+            val dataSet =
+                PieDataSet(entries, "")
 
-            if (personalTotal > 0) {
-                entries.add(PieEntry(personalTotal.toFloat(), getString(R.string.personal_care)))
-            }
+            dataSet.sliceSpace = 3f
 
-            if (stationeryTotal > 0) {
-                entries.add(PieEntry(stationeryTotal.toFloat(), getString(R.string.stationery)))
-            }
-
-            val dataSet = PieDataSet(
-                entries,
-                getString(R.string.inventory_categories)
-            )
+            dataSet.selectionShift = 8f
 
             dataSet.colors = listOf(
+
                 Color.parseColor("#4CAF50"),
+
                 Color.parseColor("#2196F3"),
+
                 Color.parseColor("#FF9800"),
+
                 Color.parseColor("#E91E63")
             )
 
-            dataSet.valueTextColor = Color.WHITE
-            dataSet.valueTextSize = 14f
+            dataSet.valueTextColor =
+                Color.WHITE
 
-            val data = PieData(dataSet)
+            dataSet.valueTextSize =
+                12f
 
-            pieChart.data = data
+            val data =
+                PieData(dataSet)
 
-            pieChart.description.isEnabled = false
+            pieChart.setUsePercentValues(true)
+
+            data.setValueFormatter(
+                PercentFormatter(pieChart)
+            )
+
+            pieChart.data =
+                data
+
+            pieChart.description.isEnabled =
+                false
+
+            pieChart.legend.isEnabled =
+                false
 
             pieChart.animateY(1500)
 
-            pieChart.setEntryLabelColor(Color.WHITE)
+            pieChart.setDrawEntryLabels(false)
 
-            pieChart.setEntryLabelTextSize(13f)
+            pieChart.holeRadius =
+                45f
+
+            pieChart.transparentCircleRadius =
+                70f
+
+            pieChart.setCenterTextSize(22f)
 
             val currentNightMode =
                 resources.configuration.uiMode and
                         Configuration.UI_MODE_NIGHT_MASK
 
-            if (currentNightMode ==
+            if (
+                currentNightMode ==
                 Configuration.UI_MODE_NIGHT_YES
             ) {
 
-                pieChart.setHoleColor(Color.parseColor("#121212"))
+                pieChart.setHoleColor(
+                    Color.parseColor("#121212")
+                )
 
-                pieChart.setCenterTextColor(Color.WHITE)
+                pieChart.setCenterTextColor(
+                    Color.WHITE
+                )
 
-                pieChart.legend.textColor = Color.WHITE
+                pieChart.legend.textColor =
+                    Color.WHITE
 
             } else {
 
-                pieChart.setHoleColor(Color.WHITE)
+                pieChart.setHoleColor(
+                    Color.WHITE
+                )
 
-                pieChart.setCenterTextColor(Color.BLACK)
+                pieChart.setCenterTextColor(
+                    Color.BLACK
+                )
 
-                pieChart.legend.textColor = Color.BLACK
+                pieChart.legend.textColor =
+                    Color.BLACK
+
+//                pieChart.legend.isEnabled = false
             }
 
-            pieChart.centerText = getString(R.string.inventory)
-
-            pieChart.setCenterTextSize(18f)
-
             pieChart.invalidate()
+        }
+    }
+
+    private fun formatValue(
+        value: Double
+    ): String {
+        return when {
+
+            value >= 10000000 ->
+
+                "₹${
+                    DecimalFormat("#.#")
+                        .format(value / 10000000)
+                }Cr"
+
+            value >= 100000 ->
+
+                "₹${
+                    DecimalFormat("#.#")
+                        .format(value / 100000)
+                }L"
+
+            value >= 1000 ->
+
+                "₹${
+                    DecimalFormat("#,###")
+                        .format(value)
+                }"
+
+            else ->
+
+                "₹${value.toInt()}"
         }
     }
 }

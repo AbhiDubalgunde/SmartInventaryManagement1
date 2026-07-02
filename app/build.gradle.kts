@@ -1,25 +1,17 @@
-import org.gradle.kotlin.dsl.implementation
-
 plugins {
     alias(libs.plugins.android.application)
-
-    //room db
-    id("com.google.devtools.ksp")
-
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.example.smartinventarymanagement"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.smartinventarymanagement"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -36,18 +28,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
-    sourceSets {
-        getByName("main") {
-            assets {
-                srcDirs("src\\main\\assets", "src\\main\\assets")
-            }
-        }
+    kotlinOptions {
+        jvmTarget = "21"
+    }
+    buildFeatures {
+        viewBinding = false
     }
 }
-
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -59,38 +49,23 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //bottom nav
     implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    ksp("androidx.room:room-compiler:2.6.1")
 
-    // Room DB
-    implementation("androidx.room:room-runtime:2.8.4")
-    implementation("androidx.room:room-ktx:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
-    ksp("androidx.room:room-compiler:2.8.4")
-
-    //news
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
-    //Pie Chart Library
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
-    //bar chart
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
-    //image
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-
-    //image crop
     implementation("com.github.yalantis:ucrop:2.2.8")
-
-    // Export Libraries
     implementation("com.itextpdf:itext7-core:7.2.5")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
-
-    // Chrome Custom Tabs
     implementation("androidx.browser:browser:1.8.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.google.android.gms:play-services-auth-api-phone:18.0.2")
 }

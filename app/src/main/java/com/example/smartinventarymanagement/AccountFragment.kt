@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.util.Locale
@@ -75,6 +76,25 @@ class AccountFragment : Fragment() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadProfileImage()
+    }
+
+    private fun loadProfileImage() {
+        val savedImage = sharedPreferences.getString("profileImage", null)
+        if (!savedImage.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(Uri.parse(savedImage))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .circleCrop()
+                .into(imgProfile)
+        } else {
+            imgProfile.setImageResource(R.drawable.profile_placeholder)
+        }
+    }
+
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
@@ -94,8 +114,8 @@ class AccountFragment : Fragment() {
         val btnLogout =
             view.findViewById<Button>(R.id.btnLogout)
 
-        val switchDarkMode =
-            view.findViewById<Switch>(R.id.switchDarkMode)
+        val btnSettings =
+            view.findViewById<LinearLayout>(R.id.btnSettings)
 
         val btnLanguage =
             view.findViewById<LinearLayout>(R.id.btnLanguage)
@@ -120,18 +140,11 @@ class AccountFragment : Fragment() {
         tvLanguageDisplay.text = if (currentLang == "kn") getString(R.string.kannada) else getString(R.string.english)
 
         // LOAD PROFILE IMAGE
-        val savedImage =
-            sharedPreferences.getString(
-                "profileImage",
-                null
-            )
+        loadProfileImage()
 
-        if (!savedImage.isNullOrEmpty()) {
-
-            Glide.with(requireContext())
-                .load(savedImage)
-                .circleCrop()
-                .into(imgProfile)
+        // SETTINGS CLICK
+        btnSettings.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
 
         // PROFILE IMAGE CLICK
@@ -194,51 +207,21 @@ class AccountFragment : Fragment() {
                 .show()
         }
 
-        // DARK MODE
-
-        val isDarkMode =
-            sharedPreferences.getBoolean(
-                "darkMode",
-                true
-            )
-
-        switchDarkMode.isChecked = isDarkMode
-
-        switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-
-            sharedPreferences.edit()
-                .putBoolean("darkMode", isChecked)
-                .apply()
-
-            AppCompatDelegate.setDefaultNightMode(
-
-                if (isChecked)
-                    AppCompatDelegate.MODE_NIGHT_YES
-                else
-                    AppCompatDelegate.MODE_NIGHT_NO
-            )
-        }
-
         // LOGOUT
         btnLogout.setOnClickListener {
-
-            sharedPreferences.edit()
-                .putBoolean("isLoggedIn", false)
-                .apply()
+            SessionManager(requireContext()).logout()
 
             val intent = Intent(
                 requireContext(),
                 LoginActivity::class.java
             )
-
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-
             requireActivity().finish()
         }
 
         // LANGUAGE
         btnLanguage.setOnClickListener {
-
             val languages = arrayOf(
                 getString(R.string.english),
                 getString(R.string.kannada)
@@ -257,6 +240,9 @@ class AccountFragment : Fragment() {
                 }
                 .show()
         }
+
+        // UPDATE SESSION
+        SessionManager(requireContext()).updateSession()
     }
 
     // CHECK PERMISSION
@@ -344,20 +330,22 @@ class AccountFragment : Fragment() {
                 data?.let { UCrop.getOutput(it) }
 
             if (resultUri != null) {
+                // To avoid permission issues and ensure persistence, 
+                // we should copy the file to internal storage
+                val internalFile = File(requireContext().filesDir, "profile_photo.jpg")
+                requireContext().contentResolver.openInputStream(resultUri)?.use { input ->
+                    internalFile.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                val internalUri = Uri.fromFile(internalFile)
 
                 sharedPreferences.edit()
-
-                    .putString(
-                        "profileImage",
-                        resultUri.toString()
-                    )
-
+                    .putString("profileImage", internalUri.toString())
                     .apply()
 
-                Glide.with(requireContext())
-                    .load(resultUri)
-                    .circleCrop()
-                    .into(imgProfile)
+                loadProfileImage()
 
             } else {
 

@@ -14,12 +14,16 @@ import java.io.InputStream
 import androidx.room.Room
 import kotlinx.coroutines.launch
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class AddItemActivity : AppCompatActivity() {
+class AddItemActivity : BaseActivity() {
 
     private lateinit var itemDao: ItemDao
 
@@ -29,6 +33,8 @@ class AddItemActivity : AppCompatActivity() {
 
     // ✅ STRING TYPE
     private var selectedImageUri: String? = null
+
+    private var selectedExpiryDate: String? = null
 
     companion object {
 
@@ -46,6 +52,8 @@ class AddItemActivity : AppCompatActivity() {
         val db = DatabaseProvider.getDatabase(this)
 
         itemDao = db.itemDao()
+
+        val notificationDao = db.notificationDao()
 
         val etName =
             findViewById<EditText>(R.id.etName)
@@ -67,6 +75,9 @@ class AddItemActivity : AppCompatActivity() {
 
         val imgPreview =
             findViewById<ImageView>(R.id.imgPreview)
+
+        val tvExpiryDate =
+            findViewById<TextView>(R.id.tvExpiryDate)
 
         val categories = listOf(
             "Grocery",
@@ -134,6 +145,51 @@ class AddItemActivity : AppCompatActivity() {
             }
         }        // EDIT MODE
 
+        // EXPIRY DATE PICKER
+
+        tvExpiryDate.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+
+            val year = calendar.get(Calendar.YEAR)
+
+            val month = calendar.get(Calendar.MONTH)
+
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(
+                this,
+
+                { _, selectedYear, selectedMonth, selectedDay ->
+
+                    val selectedCalendar = Calendar.getInstance()
+
+                    selectedCalendar.set(
+                        selectedYear,
+                        selectedMonth,
+                        selectedDay
+                    )
+
+                    val format = SimpleDateFormat(
+                        "dd/MM/yyyy",
+                        Locale.getDefault()
+                    )
+
+                    selectedExpiryDate =
+                        format.format(selectedCalendar.time)
+
+                    tvExpiryDate.text =
+                        selectedExpiryDate
+                },
+
+                year,
+                month,
+                day
+            )
+
+            datePickerDialog.show()
+        }
+
         if (intent.hasExtra("id")) {
 
             isEditMode = true
@@ -156,6 +212,12 @@ class AddItemActivity : AppCompatActivity() {
             val imageUri =
                 intent.getStringExtra("imageUri")
 
+            val expiryDate =
+                intent.getStringExtra("expiryDate")
+
+            tvExpiryDate.text =
+                expiryDate ?: "Select Expiry Date"
+
             etName.setText(name)
 
             etQty.setText(qty.toString())
@@ -176,6 +238,15 @@ class AddItemActivity : AppCompatActivity() {
                 Glide.with(this)
                     .load(Uri.parse(imageUri))
                     .into(imgPreview)
+            }
+
+            // SHOW OLD EXPIRY DATE
+
+            if (!expiryDate.isNullOrEmpty()) {
+
+                selectedExpiryDate = expiryDate
+
+                tvExpiryDate.text = expiryDate
             }
 
             btnSave.text = getString(R.string.update_item)
@@ -211,7 +282,8 @@ class AddItemActivity : AppCompatActivity() {
                 price = price,
                 category = category,
                 isLowStock = isLowStock,
-                imageUri = selectedImageUri
+                imageUri = selectedImageUri,
+                expiryDate = selectedExpiryDate
             )
 
             lifecycleScope.launch {
@@ -228,13 +300,53 @@ class AddItemActivity : AppCompatActivity() {
 
                 } else {
 
-                    itemDao.insert(item)
+                    val insertedId =
+                        itemDao.insert(item).toInt()
+
+                    itemId = insertedId
 
                     Toast.makeText(
                         this@AddItemActivity,
                         getString(R.string.item_added),
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+//
+// AUTO NOTIFICATIONS
+//
+
+                if (qty <= 2) {
+
+                    notificationDao.insert(
+
+                        AppNotification(
+
+                            title = "Critical stock alert",
+
+                            description = "$name almost finished",
+
+                            type = "critical",
+
+                            itemId = itemId
+                        )
+                    )
+
+                } else if (qty < 5) {
+
+                    notificationDao.insert(
+
+                        AppNotification(
+
+                            title = "Low stock warning",
+
+                            description = "Only $qty $name remaining",
+
+                            type = "low_stock",
+
+                            itemId = itemId
+                        )
+                    )
                 }
 
                 sharedPref.edit()

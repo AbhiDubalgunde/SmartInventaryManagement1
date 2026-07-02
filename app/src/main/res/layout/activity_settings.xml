@@ -79,6 +79,30 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
+            <!-- BIOMETRIC LOCK -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="?android:colorBackgroundFloating"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Biometric Authentication"
+                    android:textSize="16sp"
+                    android:textColor="?android:textColorPrimary"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchBiometric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
             <!-- ABOUT CARD -->
             <LinearLayout
                 android:layout_width="match_parent"

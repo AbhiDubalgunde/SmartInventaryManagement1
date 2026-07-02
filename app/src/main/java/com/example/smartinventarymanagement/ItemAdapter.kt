@@ -1,13 +1,14 @@
 package com.example.smartinventarymanagement
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.text.DecimalFormat
 
 class ItemAdapter(
     private var itemList: List<Item>,
@@ -15,140 +16,84 @@ class ItemAdapter(
     private val onItemClick: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
-    private var fullList: List<Item> = itemList.toList()
+    private var fullList: List<Item> = itemList
+    private var lastAnimatedPosition = -1
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        val name: TextView =
-            view.findViewById(R.id.tvName)
-
-        val price: TextView =
-            view.findViewById(R.id.tvPrice)
-
-        val qty: TextView =
-            view.findViewById(R.id.tvQty)
-
-        val warning: TextView =
-            view.findViewById(R.id.tvWarning)
-
-        val image: ImageView =
-            view.findViewById(R.id.imgItem)
+        val name: TextView = view.findViewById(R.id.tvName)
+        val price: TextView = view.findViewById(R.id.tvPrice)
+        val qty: TextView = view.findViewById(R.id.tvQty)
+        val warning: TextView = view.findViewById(R.id.tvWarning)
+        val image: ImageView = view.findViewById(R.id.imgItem)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ItemViewHolder {
-
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_row, parent, false)
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
         return ItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: ItemViewHolder,
-        position: Int
-    ) {
-
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = itemList[position]
-
-        // NAME
         holder.name.text = item.name
+        holder.price.text = "₹${DecimalFormat("#,##0").format(item.price)}"
+        holder.qty.text = "Qty: ${item.quantity}"
 
-        // PRICE
-        holder.price.text = holder.itemView.context.getString(R.string.price_label, item.price.toString())
-
-        // QUANTITY
-        holder.qty.text = holder.itemView.context.getString(R.string.qty_label, item.quantity)
-
-        // LOW STOCK
-        if (item.isLowStock) {
-
+        if (item.quantity < 5) {
             holder.warning.visibility = View.VISIBLE
-
         } else {
-
             holder.warning.visibility = View.GONE
         }
 
-        // 🔥 IMAGE LOGIC
-
         if (!item.imageUri.isNullOrEmpty()) {
-
-            // USER SELECTED IMAGE
-
             Glide.with(holder.itemView.context)
-                .load(Uri.parse(item.imageUri))
+                .load(item.imageUri)
                 .placeholder(R.drawable.ic_grocery)
                 .into(holder.image)
-
         } else {
-
-            // DEFAULT CATEGORY IMAGE
-
-            when (item.category.lowercase()) {
-
-                "grocery" ->
-                    holder.image.setImageResource(R.drawable.ic_grocery)
-
-                "electronics" ->
-                    holder.image.setImageResource(R.drawable.electronics)
-
-                "personal care" ->
-                    holder.image.setImageResource(R.drawable.personal_care)
-
-                "stationery" ->
-                    holder.image.setImageResource(R.drawable.stationary)
-
-                else ->
-                    holder.image.setImageResource(R.drawable.ic_grocery)
-            }
+            holder.image.setImageResource(R.drawable.ic_grocery)
         }
 
-        // DELETE
+        holder.itemView.setOnClickListener { onItemClick(item) }
+        
         holder.itemView.setOnLongClickListener {
-
             onDeleteClick(item)
-
             true
         }
 
-        // EDIT
-        holder.itemView.setOnClickListener {
+        // Entrance animation
+        setAnimation(holder.itemView, position)
+    }
 
-            onItemClick(item)
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        if (position > lastAnimatedPosition) {
+            viewToAnimate.alpha = 0f
+            viewToAnimate.translationY = 50f
+            viewToAnimate.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setInterpolator(DecelerateInterpolator())
+                .setDuration(300)
+                .setStartDelay(position * 50L)
+                .start()
+            lastAnimatedPosition = position
         }
     }
 
     override fun getItemCount(): Int = itemList.size
 
-    // SEARCH
     fun filter(query: String) {
-
         itemList = if (query.isEmpty()) {
-
             fullList
-
         } else {
-
-            fullList.filter {
-
-                it.name.contains(query, ignoreCase = true) ||
-                        it.category.contains(query, ignoreCase = true)
-            }
+            fullList.filter { it.name.contains(query, ignoreCase = true) }
         }
-
         notifyDataSetChanged()
     }
 
-    // UPDATE
     fun updateData(newList: List<Item>) {
-
         itemList = newList
-
-        fullList = newList.toList()
-
+        fullList = newList
+        lastAnimatedPosition = -1 // Reset animations on full update
         notifyDataSetChanged()
     }
 }

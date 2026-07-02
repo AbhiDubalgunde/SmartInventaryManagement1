@@ -16,19 +16,25 @@
     android:background="@color/light_bg">
 
     <TextView
+        android:id="@+id/tvWelcomeBack"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-
-        android:text="@string/app_name"
-
-        android:textSize="30sp"
-
+        android:text="@string/welcome_back"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/secondary"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/tvLoginSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/verify_identity"
+        android:textSize="16sp"
         android:textColor="@color/black"
-
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/etUsername"
@@ -68,16 +74,23 @@
 
     <Button
         android:id="@+id/btnLogin"
-
         android:layout_width="match_parent"
-
         android:layout_height="52dp"
-
         android:text="@string/login"
-
         android:textColor="@android:color/white"
-
         android:backgroundTint="@color/secondary"/>
+
+    <ImageButton
+        android:id="@+id/btnBiometricRetry"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_fingerprint"
+        android:contentDescription="@string/biometric_authentication"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:tint="@color/secondary"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tvCreateAccount"

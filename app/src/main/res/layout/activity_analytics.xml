@@ -18,11 +18,13 @@
     <!-- TITLE -->
 
     <TextView
+        android:id="@+id/tvAnalyticsTitle"
+
         android:layout_width="wrap_content"
 
         android:layout_height="wrap_content"
 
-        android:text="Inventory Analytics"
+        android:text="Analytics"
 
         android:textSize="24sp"
 
@@ -31,7 +33,6 @@
         android:textColor="?android:textColorPrimary"
 
         android:layout_marginBottom="20dp"/>
-
     <!-- PIE CHART CARD -->
 
     <LinearLayout
@@ -55,6 +56,51 @@
             android:layout_height="320dp"
 
             android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/valueLegendLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/tvLegendElectronics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🟦 Electronics"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="6dp"/>
+
+            <TextView
+                android:id="@+id/tvLegendGrocery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🟩 Grocery"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="6dp"/>
+
+            <TextView
+                android:id="@+id/tvLegendPersonal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🟧 Personal Care"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="6dp"/>
+
+            <TextView
+                android:id="@+id/tvLegendStationery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🟥 Stationery"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="6dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

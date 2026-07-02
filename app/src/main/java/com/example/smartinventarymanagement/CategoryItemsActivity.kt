@@ -3,7 +3,6 @@ package com.example.smartinventarymanagement
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import kotlinx.coroutines.launch
 
-class CategoryItemsActivity : AppCompatActivity() {
+class CategoryItemsActivity : BaseActivity() {
 
     private lateinit var itemDao: ItemDao
     private lateinit var adapter: ItemAdapter
@@ -81,9 +80,11 @@ class CategoryItemsActivity : AppCompatActivity() {
 
     private fun loadCategoryItems(category: String) {
         lifecycleScope.launch {
-
-            val items = itemDao.getItemsByCategory(category)
-
+            val items = if (category == "All" || category == getString(R.string.all_items)) {
+                itemDao.getAllItems()
+            } else {
+                itemDao.getItemsByCategory(category)
+            }
             adapter.updateData(items)
         }
     }

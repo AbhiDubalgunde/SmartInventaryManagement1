@@ -8,14 +8,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import java.util.Locale
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -33,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnLanguage = findViewById<LinearLayout>(R.id.btnLanguage)
         val tvLanguageDisplay = findViewById<TextView>(R.id.tvLanguage)
         val switchDarkMode = findViewById<SwitchCompat>(R.id.switchDarkMode)
+        val switchBiometric = findViewById<SwitchCompat>(R.id.switchBiometric)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
 
         // LANGUAGE DISPLAY
@@ -48,6 +52,20 @@ class SettingsActivity : AppCompatActivity() {
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
+        }
+
+        // BIOMETRIC
+        val isBiometricEnabled = sessionManager.isBiometricEnabled()
+        switchBiometric.isChecked = isBiometricEnabled
+        switchBiometric.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // If turning ON, authenticate first
+                authenticateAndEnableBiometric(switchBiometric)
+            } else {
+                // If turning OFF, just disable
+                sessionManager.setBiometricEnabled(false)
+                Toast.makeText(this, "Fingerprint Login Disabled", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // LANGUAGE SELECTION
@@ -70,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // LOGOUT
         btnLogout.setOnClickListener {
-            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
+            sessionManager.logout()
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -86,9 +104,41 @@ class SettingsActivity : AppCompatActivity() {
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
         
-        // Recreate activity and return to main to apply language project-wide
+        // RECREATE ACTIVITY
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+    private fun authenticateAndEnableBiometric(switch: SwitchCompat) {
+        val executor = ContextCompat.getMainExecutor(this)
+        val biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    sessionManager.setBiometricEnabled(true)
+                    Toast.makeText(this@SettingsActivity, "Fingerprint Login Enabled Successfully", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    switch.isChecked = false
+                    Toast.makeText(this@SettingsActivity, "Authentication Error: $errString", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    // We don't necessarily want to uncheck on a single failed attempt, 
+                    // but the prompt usually stays up. If it closes, we might need to handle it.
+                }
+            })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Enable Biometric Login")
+            .setSubtitle("Confirm your identity to enable fingerprint login")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 }
