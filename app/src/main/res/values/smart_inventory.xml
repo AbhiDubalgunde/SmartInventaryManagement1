@@ -1,0 +1,94 @@
+<resources>
+    <string name="auth_register_help">Create your account to start managing inventory.</string>
+    <string name="auth_full_name">Full name</string>
+    <string name="auth_brand">Smart Inventory</string>
+    <string name="auth_tagline">Manage your inventory smarter</string>
+    <string name="auth_welcome">Welcome back</string>
+    <string name="auth_login_help">Sign in to keep your stock in sync.</string>
+    <string name="auth_phone">Phone number</string>
+    <string name="auth_phone_hint">Include country code, e.g. +919876543210</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_in">Sign in</string>
+    <string name="auth_signing_in">Signing in…</string>
+    <string name="auth_forgot">Forgot password?</string>
+    <string name="auth_create_account">New user? Create account</string>
+    <string name="auth_biometric">Use fingerprint for your saved account</string>
+    <string name="auth_back">Back</string>
+    <string name="auth_recovery_title">Forgot password?</string>
+    <string name="auth_recovery_help">Enter the phone number you registered on this device. We will verify it before you choose a new password.</string>
+    <string name="auth_send_code">Send verification code</string>
+    <string name="auth_otp_title">Verify your phone</string>
+    <string name="auth_otp_destination">We will send a verification code to %1$s</string>
+    <string name="auth_otp_sent">Verification code sent to %1$s</string>
+    <string name="auth_2fa_explanation">One more step to secure your account. Verify this phone to trust this device.</string>
+    <string name="auth_reset_explanation">Verify your registered phone to continue to password recovery.</string>
+    <string name="auth_demo_explanation">SMS learning module</string>
+    <string name="auth_otp_notice">Standard SMS rates may apply. Your phone number is sent to Google for verification and abuse prevention.</string>
+    <string name="auth_code_error">Enter the 6-digit code from your SMS.</string>
+    <string name="auth_sending">Sending code…</string>
+    <string name="auth_verifying">Verifying…</string>
+    <string name="auth_resend">Resend code</string>
+    <string name="auth_resend_countdown">Resend in %1$d seconds</string>
+    <string name="auth_reset_title">Create a new password</string>
+    <string name="auth_reset_help">Phone verified. Choose a strong password for your Smart Inventory account.</string>
+    <string name="auth_new_password">New password</string>
+    <string name="auth_confirm_password">Confirm password</string>
+    <string name="auth_password_rules">Use 8–128 characters with a letter and a number, and no leading or trailing spaces.</string>
+    <string name="auth_save_password">Save new password</string>
+    <string name="auth_reset_success">Password reset successful. Sign in with your new password.</string>
+    <string name="auth_reset_retry">Could not update the password. Return to login and verify your phone again.</string>
+    <string name="auth_password_mismatch">Passwords do not match.</string>
+    <string name="auth_phone_error">Enter a valid international phone number, e.g. +919876543210.</string>
+    <string name="auth_password_required">Enter your password.</string>
+    <string name="auth_credentials_error">The phone number or password is incorrect.</string>
+    <string name="auth_database_error">Could not access your account. Please try again.</string>
+    <string name="auth_unknown_phone">No account with this phone number was found on this device.</string>
+    <string name="auth_session_expired">This verification session has expired. Go back and start again.</string>
+    <string name="auth_verified_success">Phone verified. Device trusted.</string>
+    <string name="inventory_out_of_stock">Out of stock</string>
+    <string name="inventory_low_stock">Low stock</string>
+    <string name="inventory_in_stock">In stock</string>
+    <string name="inventory_threshold">Low-stock threshold</string>
+    <string name="inventory_threshold_help">Low stock when quantity is below this number.</string>
+    <string name="inventory_empty">No items match your filters</string>
+    <string name="inventory_empty_help">Try another search or add your first item.</string>
+    <string name="inventory_search">Search inventory</string>
+    <string name="inventory_sort">Sort inventory</string>
+    <string name="inventory_recent_activity">Recent inventory activity</string>
+    <string name="inventory_no_activity">New inventory changes will appear here.</string>
+    <string name="inventory_total_value">Total value</string>
+    <string name="inventory_delete">Delete item</string>
+    <string name="inventory_stock_summary">%1$d low stock · %2$d out of stock</string>
+    <string name="inventory_category_summary">%1$d items · %2$d units</string>
+    <string name="inventory_value_line">%1$s each · %2$s total</string>
+    <string name="inventory_units">%1$d units</string>
+    <string name="inventory_add">Add item</string>
+    <string name="inventory_activity_added">Added</string>
+    <string name="inventory_activity_updated">Updated</string>
+    <string name="inventory_activity_deleted">Deleted</string>
+    <style name="Theme.SmartInventory.Auth" parent="Theme.SmartInventaryManagement">
+        <item name="colorPrimary">@color/si_primary</item>
+        <item name="colorOnPrimary">@color/si_on_primary</item>
+        <item name="colorSurface">@color/si_surface</item>
+        <item name="android:colorBackground">@color/si_background</item>
+        <item name="android:statusBarColor">@color/si_background</item>
+        <item name="android:navigationBarColor">@color/si_background</item>
+        <item name="android:windowLightStatusBar">@bool/si_light_bars</item>
+        <item name="android:windowLightNavigationBar">@bool/si_light_bars</item>
+    </style>
+    <style name="Widget.SmartInventory.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">14dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Widget.SmartInventory.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Widget.SmartInventory.Input" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+</resources>

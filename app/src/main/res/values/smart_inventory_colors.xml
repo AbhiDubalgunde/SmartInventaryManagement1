@@ -1,0 +1,12 @@
+<resources>
+<color name="si_primary">#006B5E</color>
+<color name="si_on_primary">#FFFFFF</color>
+<color name="si_background">#F3F6F5</color>
+<color name="si_surface">#FFFFFF</color>
+<color name="si_soft">#E0F1EC</color>
+<color name="si_text">#172C28</color>
+<color name="si_muted">#536861</color>
+<color name="si_warning">#8A4300</color>
+<color name="si_danger">#BA1A1A</color>
+<bool name="si_light_bars">true</bool>
+</resources>
