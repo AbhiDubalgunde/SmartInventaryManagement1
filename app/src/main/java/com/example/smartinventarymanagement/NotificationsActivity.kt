@@ -26,11 +26,7 @@ class NotificationsActivity : BaseActivity() {
         val container =
             findViewById<LinearLayout>(R.id.notificationContainer)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "inventary_db"
-        ).build()
+        val db = DatabaseProvider.getDatabase(this)
 
         itemDao = db.itemDao()
 
@@ -39,7 +35,7 @@ class NotificationsActivity : BaseActivity() {
             val items = itemDao.getAllItems()
 
             val lowStockItems =
-                items.filter { it.quantity < 5 }
+                items.filter { it.quantity == 0 || it.quantity < it.lowStockThreshold }
 
             if (lowStockItems.isEmpty()) {
 

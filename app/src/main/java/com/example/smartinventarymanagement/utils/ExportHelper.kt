@@ -144,7 +144,7 @@ object ExportHelper {
             row.createCell(2).setCellValue(item.quantity.toDouble())
             row.createCell(3).setCellValue(item.price)
             row.createCell(4).setCellValue(item.quantity * item.price)
-            row.createCell(5).setCellValue(if (item.quantity < 5) "Low Stock" else "Normal")
+            row.createCell(5).setCellValue(if (item.quantity == 0) "Out of Stock" else if (item.quantity < item.lowStockThreshold) "Low Stock" else "Normal")
         }
 
         for (i in headers.indices) {

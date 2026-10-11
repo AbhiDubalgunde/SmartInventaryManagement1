@@ -25,6 +25,7 @@ class ItemAdapter(
         val qty: TextView = view.findViewById(R.id.tvQty)
         val warning: TextView = view.findViewById(R.id.tvWarning)
         val image: ImageView = view.findViewById(R.id.imgItem)
+        val delete: View = view.findViewById(R.id.itemDelete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -35,14 +36,25 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = itemList[position]
         holder.name.text = item.name
-        holder.price.text = "₹${DecimalFormat("#,##0").format(item.price)}"
-        holder.qty.text = "Qty: ${item.quantity}"
-
-        if (item.quantity < 5) {
-            holder.warning.visibility = View.VISIBLE
-        } else {
-            holder.warning.visibility = View.GONE
-        }
+        val context = holder.itemView.context
+        val money = DecimalFormat("#,##0.00")
+        holder.price.text = context.getString(R.string.inventory_value_line,
+            "₹${money.format(item.price)}", "₹${money.format(item.quantity * item.price)}")
+        holder.qty.text = context.getString(R.string.inventory_units, item.quantity)
+        val status = InventoryRules.status(item.quantity, item.lowStockThreshold)
+        holder.warning.visibility = View.VISIBLE
+        holder.warning.setText(when (status) {
+            StockStatus.OUT_OF_STOCK -> R.string.inventory_out_of_stock
+            StockStatus.LOW_STOCK -> R.string.inventory_low_stock
+            StockStatus.IN_STOCK -> R.string.inventory_in_stock
+        })
+        holder.warning.setTextColor(androidx.core.content.ContextCompat.getColor(context, when (status) {
+            StockStatus.OUT_OF_STOCK -> R.color.si_danger
+            StockStatus.LOW_STOCK -> R.color.si_warning
+            StockStatus.IN_STOCK -> R.color.si_primary
+        }))
+        holder.delete.contentDescription = "Delete ${item.name}"
+        holder.delete.setOnClickListener { onDeleteClick(item) }
 
         if (!item.imageUri.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
@@ -61,7 +73,9 @@ class ItemAdapter(
         }
 
         // Entrance animation
-        setAnimation(holder.itemView, position)
+        // Keep recycled cards stable while searching and sorting.
+        holder.itemView.alpha = 1f
+        holder.itemView.translationY = 0f
     }
 
     private fun setAnimation(viewToAnimate: View, position: Int) {

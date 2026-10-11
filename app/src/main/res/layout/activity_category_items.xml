@@ -1,23 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#D1D0A5"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCategory"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:background="@color/si_background">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+<com.google.android.material.button.MaterialButton android:id="@+id/inventoryBack" style="@style/Widget.SmartInventory.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/auth_back"/>
+<TextView android:id="@+id/tvTitle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/si_text"/>
+</LinearLayout>
+<com.google.android.material.textfield.TextInputLayout style="@style/Widget.SmartInventory.Input" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/inventory_search">
+<com.google.android.material.textfield.TextInputEditText android:id="@+id/inventorySearch" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:inputType="text" android:singleLine="true" android:imeOptions="actionSearch"/>
+</com.google.android.material.textfield.TextInputLayout>
+<Spinner android:id="@+id/inventoryCategory" android:layout_width="match_parent" android:layout_height="48dp" android:contentDescription="@string/category"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+<Spinner android:id="@+id/inventoryStock" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:contentDescription="@string/inventory_low_stock"/>
+<Spinner android:id="@+id/inventorySort" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:contentDescription="@string/inventory_sort"/>
+</LinearLayout>
+<TextView android:id="@+id/inventoryCount" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp" android:textColor="@color/si_muted"/>
+<ProgressBar android:id="@+id/inventoryProgress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
+<TextView android:id="@+id/inventoryEmpty" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:text="@string/inventory_empty" android:textColor="@color/si_muted" android:visibility="gone"/>
+<androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerCategory" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+<com.google.android.material.button.MaterialButton android:id="@+id/inventoryAdd" style="@style/Widget.SmartInventory.Button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/inventory_add"/>
 </LinearLayout>

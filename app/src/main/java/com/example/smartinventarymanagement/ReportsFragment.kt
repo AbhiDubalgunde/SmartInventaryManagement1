@@ -85,7 +85,7 @@ class ReportsFragment : Fragment() {
             }
 
             val lowStockItems = items.filter {
-                it.quantity < 5
+                it.quantity < it.lowStockThreshold
             }
 
             animateText(

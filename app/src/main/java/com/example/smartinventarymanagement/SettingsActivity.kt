@@ -38,6 +38,13 @@ class SettingsActivity : BaseActivity() {
         val switchDarkMode = findViewById<SwitchCompat>(R.id.switchDarkMode)
         val switchBiometric = findViewById<SwitchCompat>(R.id.switchBiometric)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
+        val btnSmsRetrieverDemo = findViewById<LinearLayout>(R.id.btnSmsRetrieverDemo)
+
+        // SMS RETRIEVER DEMO
+        btnSmsRetrieverDemo.setOnClickListener {
+            val intent = Intent(this, RetrieverDemoActivity::class.java)
+            startActivity(intent)
+        }
 
         // LANGUAGE DISPLAY
         val currentLang = sharedPreferences.getString("language", "en")

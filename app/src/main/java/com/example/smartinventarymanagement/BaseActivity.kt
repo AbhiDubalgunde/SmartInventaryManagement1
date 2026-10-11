@@ -44,7 +44,9 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (sessionManager.isLoggedIn()) {
+        if (!sessionManager.isLoggedIn()) {
+            logoutUser()
+        } else {
             if (sessionManager.isSessionExpired()) {
                 logoutUser()
             } else {

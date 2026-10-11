@@ -2,6 +2,7 @@ package com.example.smartinventarymanagement
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
 
 @Entity(tableName = "items")
 data class Item(
@@ -22,5 +23,8 @@ data class Item(
     val imageUri: String? = null,
 
     // ✅ NEW FIELD
-    val expiryDate: String? = null
+    val expiryDate: String? = null,
+
+    @ColumnInfo(defaultValue = "5")
+    val lowStockThreshold: Int = 5
 )

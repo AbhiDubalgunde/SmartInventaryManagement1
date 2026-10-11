@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -45,6 +46,8 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
     private lateinit var itemDao: ItemDao
     private lateinit var adapter: ItemAdapter
     private var isFirstLaunch = true
+    private var dashboardItems: List<Item> = emptyList()
+    private var inventoryQuery = ""
 
     private val restoreLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -96,7 +99,7 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
 
     private fun setupRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), if (resources.configuration.screenWidthDp < 380) 1 else 2)
         recyclerView.setHasFixedSize(true)
         recyclerView.isNestedScrollingEnabled = false
 
@@ -129,6 +132,8 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
         val cardTotalItems = view.findViewById<CardView>(R.id.cardTotalItems)
         val cardTotalValue = view.findViewById<CardView>(R.id.cardTotalValue)
 
+        view.findViewById<View>(R.id.cardLowStock).setOnClickListener { openStockFilter(1) }
+        view.findViewById<View>(R.id.cardOutOfStock).setOnClickListener { openStockFilter(2) }
         // Apply Click Listeners
         cardTotalItems.setOnClickListener { openAnalytics("items") }
         cardTotalValue.setOnClickListener { openAnalytics("value") }
@@ -208,7 +213,8 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
 
         // Profile & Greeting
         setupProfile(imgProfile, view.findViewById(R.id.tvGreeting), view.findViewById(R.id.tvHeyText))
-        setupAnimatedText(view.findViewById(R.id.tvAnimatedText))
+        view.findViewById<TextView>(R.id.tvAnimatedText).setText(R.string.auth_tagline)
+        view.findViewById<GridLayout>(R.id.categoriesGrid).columnCount = if (resources.configuration.screenWidthDp < 380) 1 else 2
 
         // Scroll Effect
         val nestedScroll = view.findViewById<NestedScrollView>(R.id.nestedScroll)
@@ -310,24 +316,44 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
     }
 
     private fun loadItems() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
+            view?.findViewById<View>(R.id.dashboardProgress)?.visibility = View.VISIBLE
+            try {
             val allItems = itemDao.getAllItems().sortedByDescending { it.id }
+            if (view == null) return@launch
+            dashboardItems = allItems
             val items = allItems.take(4) // Limit to 4 items for the dashboard
-            val totalItems = allItems.sumOf { it.quantity }
+            val totalItems = allItems.size
             val totalValue = allItems.sumOf { it.price * it.quantity }
-            val lowStockCount = allItems.count { it.quantity < 5 }
+            val lowStockCount = allItems.count {
+                InventoryRules.status(it.quantity, it.lowStockThreshold) == StockStatus.LOW_STOCK
+            }
+            val outOfStockCount = allItems.count { it.quantity == 0 }
+            view?.findViewById<TextView>(R.id.tvLowStockCount)?.text = lowStockCount.toString()
+            view?.findViewById<TextView>(R.id.tvOutOfStockCount)?.text = outOfStockCount.toString()
+            listOf("Grocery" to R.id.tvGroceryCount, "Electronics" to R.id.tvElectronicsCount,
+                "Personal Care" to R.id.tvPersonalCount, "Stationery" to R.id.tvStationeryCount).forEach { (category, id) ->
+                val inCategory = allItems.filter { it.category == category }
+                view?.findViewById<TextView>(id)?.text = getString(R.string.inventory_category_summary,
+                    inCategory.size, inCategory.sumOf { it.quantity })
+            }
+            val activity = itemDao.recentActivity()
+            view?.findViewById<TextView>(R.id.tvRecentActivity)?.text = if (activity.isEmpty())
+                getString(R.string.inventory_no_activity) else activity.joinToString("\n\n") { entry ->
+                    val action = getString(when (entry.action) {
+                        "added" -> R.string.inventory_activity_added
+                        "deleted" -> R.string.inventory_activity_deleted
+                        else -> R.string.inventory_activity_updated
+                    })
+                    val date = android.text.format.DateUtils.getRelativeTimeSpanString(entry.timestamp,
+                        System.currentTimeMillis(), android.text.format.DateUtils.MINUTE_IN_MILLIS)
+                    "$action · ${entry.itemName} · ${entry.quantity} units\n$date"
+                }
             val groceryCount = allItems.filter { it.category == "Grocery" }.sumOf { it.quantity }
 
-            view?.findViewById<TextView>(R.id.tvBadge)?.text = lowStockCount.toString()
+            view?.findViewById<TextView>(R.id.tvBadge)?.text = (lowStockCount + outOfStockCount).toString()
             
-            if (allItems.isEmpty()) {
-                emptyStateLayout.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-            } else {
-                emptyStateLayout.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-                adapter.updateData(items)
-            }
+            onSearch(inventoryQuery)
 
             if (isFirstLaunch) {
                 animateCount(tvTotalItems, totalItems.toDouble(), false)
@@ -339,19 +365,31 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
 
             tvInsight1.text = getString(R.string.insight_low_stock, lowStockCount)
             tvInsight2.text = getString(R.string.insight_grocery, groceryCount)
-            tvInsight3.text = if (totalValue > 50000) getString(R.string.insight_value_high) else getString(R.string.insight_value_stable)
+            tvInsight3.text = getString(R.string.inventory_stock_summary, lowStockCount, outOfStockCount)
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                view?.findViewById<TextView>(R.id.tvRecentActivity)?.text = "Could not load inventory. Please try again."
+            } finally {
+                view?.findViewById<View>(R.id.dashboardProgress)?.visibility = View.GONE
+            }
         }
     }
 
     private fun setupProfile(imgProfile: ImageView, tvGreeting: TextView, tvHey: TextView) {
         val sharedPref = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE)
         val profileImage = sharedPref.getString("profileImage", null)
-        val userName = sharedPref.getString("userName", "Abhishek")
+        val userName = sharedPref.getString("fullName", sharedPref.getString("userName", ""))
         
         tvHey.text = getString(R.string.hey_user, userName)
 
         if (!profileImage.isNullOrEmpty()) {
-            Glide.with(requireContext()).load(profileImage).circleCrop().into(imgProfile)
+            Glide.with(requireContext())
+                .load(Uri.parse(profileImage))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .circleCrop()
+                .into(imgProfile)
             imgProfile.setOnClickListener { startActivity(Intent(requireContext(), ProfilePhotoActivity::class.java)) }
         }
 
@@ -409,6 +447,7 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
             putExtra("category", item.category)
             putExtra("imageUri", item.imageUri)
             putExtra("expiryDate", item.expiryDate)
+            putExtra("lowStockThreshold", item.lowStockThreshold)
         })
     }
 
@@ -418,7 +457,7 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
             .setMessage(getString(R.string.delete_item_confirm, item.name))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 lifecycleScope.launch {
-                    itemDao.delete(item)
+                    itemDao.deleteTracked(item)
                     loadItems()
                 }
             }
@@ -540,7 +579,21 @@ class HomeFragment : Fragment(), SearchFragment.OnSearchListener {
     }
 
     override fun onResume() { super.onResume(); loadItems() }
-    override fun onSearch(query: String) { adapter.filter(query) }
+    override fun onSearch(query: String) {
+        inventoryQuery = query.trim()
+        val filtered = if (inventoryQuery.isEmpty()) dashboardItems.take(4)
+            else dashboardItems.filter { it.name.contains(inventoryQuery, true) || it.category.contains(inventoryQuery, true) }
+        adapter.updateData(filtered)
+        recyclerView.visibility = if (filtered.isEmpty()) View.GONE else View.VISIBLE
+        emptyStateLayout.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun openStockFilter(stock: Int) {
+        startActivity(Intent(requireContext(), CategoryItemsActivity::class.java).apply {
+            putExtra("category", "All")
+            putExtra("stockFilter", stock)
+        })
+    }
 
     private fun showExportDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_export_options, null)

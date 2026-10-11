@@ -9,6 +9,21 @@ object DatabaseProvider {
 
     private var INSTANCE: AppDatabase? = null
 
+    val MIGRATION_7_8 = object : Migration(7, 8) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE items ADD COLUMN lowStockThreshold INTEGER NOT NULL DEFAULT 5")
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS inventory_activity (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    itemName TEXT NOT NULL,
+                    action TEXT NOT NULL,
+                    quantity INTEGER NOT NULL,
+                    timestamp INTEGER NOT NULL
+                )
+            """.trimIndent())
+        }
+    }
+
     private val MIGRATION_2_3 =
         object : Migration(2, 3) {
 
@@ -99,7 +114,8 @@ object DatabaseProvider {
                     .addMigrations(
                         MIGRATION_2_3,
                         MIGRATION_3_4,
-                        MIGRATION_5_6
+                        MIGRATION_5_6,
+                        MIGRATION_7_8
                     )
                     .fallbackToDestructiveMigration()
                     .build()

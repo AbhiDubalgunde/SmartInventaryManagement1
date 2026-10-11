@@ -2,6 +2,7 @@ package com.example.smartinventarymanagement
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,14 @@ class PhoneNumberActivity : AppCompatActivity() {
         btnGenerateOtp = findViewById(R.id.btnGenerateOtp)
 
         btnGenerateOtp.setOnClickListener {
+            // ===========================
+            // DEBUG POINT 1
+            // Generate button clicked
+            // ===========================
+            Log.d("OTP_DEBUG", "DEBUG POINT 1 : Generate button clicked")
             val phone = etPhoneNumber.text.toString().trim()
+            
+            // PLACE BREAKPOINT HERE
             if (validatePhone(phone)) {
                 val otp = generateOtp()
 
@@ -31,9 +39,22 @@ class PhoneNumberActivity : AppCompatActivity() {
                     .setTitle("Developer Testing Mode")
                     .setMessage("Generated OTP:\n$otp")
                     .setPositiveButton("OK") { _, _ ->
+                        // ===========================
+                        // DEBUG POINT 5
+                        // Intent created
+                        // ===========================
+                        Log.d("OTP_DEBUG", "DEBUG POINT 5 : Intent created")
+                        // PLACE BREAKPOINT HERE
                         val intent = Intent(this, OtpActivity::class.java)
                         intent.putExtra("phone", phone)
                         intent.putExtra("otp", otp)
+
+                        // ===========================
+                        // DEBUG POINT 6
+                        // Opening OtpActivity
+                        // ===========================
+                        Log.d("OTP_DEBUG", "DEBUG POINT 6 : Opening OtpActivity")
+                        // PLACE BREAKPOINT HERE
                         startActivity(intent)
                     }
                     .setCancelable(false)
@@ -50,7 +71,23 @@ class PhoneNumberActivity : AppCompatActivity() {
      * Future-ready: Can be updated to include regex or international formats.
      */
     private fun validatePhone(phone: String): Boolean {
-        return phone.length == 10 && phone.all { it.isDigit() }
+        // ===========================
+        // DEBUG POINT 2
+        // Phone validation starts
+        // ===========================
+        Log.d("OTP_DEBUG", "DEBUG POINT 2 : Phone validation starts")
+        
+        // PLACE BREAKPOINT HERE
+        val isValid = phone.length == 10 && phone.all { it.isDigit() }
+        
+        if (isValid) {
+            // ===========================
+            // DEBUG POINT 3
+            // Phone validation success
+            // ===========================
+            Log.d("OTP_DEBUG", "DEBUG POINT 3 : Phone validation success")
+        }
+        return isValid
     }
 
     /**
@@ -58,6 +95,13 @@ class PhoneNumberActivity : AppCompatActivity() {
      * Future-ready: Will be replaced by real SMS service/API call.
      */
     private fun generateOtp(): String {
+        // ===========================
+        // DEBUG POINT 4
+        // Random OTP generated
+        // ===========================
+        Log.d("OTP_DEBUG", "DEBUG POINT 4 : Random OTP generated")
+        
+        // PLACE BREAKPOINT HERE
         val otp = Random.nextInt(100000, 999999)
         return otp.toString()
     }

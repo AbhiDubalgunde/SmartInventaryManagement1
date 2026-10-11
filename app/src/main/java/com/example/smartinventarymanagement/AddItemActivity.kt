@@ -252,26 +252,31 @@ class AddItemActivity : BaseActivity() {
             btnSave.text = getString(R.string.update_item)
         }
 
+        val etThreshold = findViewById<EditText>(R.id.etThreshold)
+        etThreshold.setText(intent.getIntExtra("lowStockThreshold", 5).toString())
+
         // SAVE
 
         btnSave.setOnClickListener {
 
-            val name =
-                etName.text.toString()
-
-            val qty =
-                etQty.text.toString()
-                    .toIntOrNull() ?: 0
-
-            val price =
-                etPrice.text.toString()
-                    .toDoubleOrNull() ?: 0.0
-
-            val category =
-                spinner.selectedItem.toString()
-
-            val isLowStock =
-                qty < 5
+            val name = etName.text.toString().trim()
+            val qtyInput = etQty.text.toString().toIntOrNull()
+            val priceInput = etPrice.text.toString().toDoubleOrNull()
+            val thresholdInput = etThreshold.text.toString().toIntOrNull()
+            if (!InventoryRules.validValues(name, qtyInput, priceInput, thresholdInput)) {
+                if (name.isBlank()) etName.error = "Enter an item name"
+                if (qtyInput == null || qtyInput < 0) etQty.error = "Enter a non-negative whole number"
+                if (priceInput == null || !priceInput.isFinite() || priceInput < 0 ||
+                    !(priceInput * (qtyInput ?: 0)).isFinite()) etPrice.error = "Enter a valid non-negative price"
+                if (thresholdInput == null || thresholdInput < 0) etThreshold.error = "Enter a non-negative whole number"
+                return@setOnClickListener
+            }
+            val qty = qtyInput!!
+            val price = priceInput!!
+            val threshold = thresholdInput!!
+            val category = spinner.selectedItem.toString()
+            val isLowStock = qty < threshold
+            btnSave.isEnabled = false
 
             // ✅ NOW SAVES STRING URI
 
@@ -283,14 +288,15 @@ class AddItemActivity : BaseActivity() {
                 category = category,
                 isLowStock = isLowStock,
                 imageUri = selectedImageUri,
-                expiryDate = selectedExpiryDate
+                expiryDate = selectedExpiryDate,
+                lowStockThreshold = threshold
             )
 
             lifecycleScope.launch {
-
+                try {
                 if (isEditMode) {
 
-                    itemDao.update(item)
+                    itemDao.updateTracked(item)
 
                     Toast.makeText(
                         this@AddItemActivity,
@@ -301,7 +307,7 @@ class AddItemActivity : BaseActivity() {
                 } else {
 
                     val insertedId =
-                        itemDao.insert(item).toInt()
+                        itemDao.insertTracked(item).toInt()
 
                     itemId = insertedId
 
@@ -332,7 +338,7 @@ class AddItemActivity : BaseActivity() {
                         )
                     )
 
-                } else if (qty < 5) {
+                } else if (qty < threshold) {
 
                     notificationDao.insert(
 
@@ -357,6 +363,11 @@ class AddItemActivity : BaseActivity() {
                     .apply()
 
                 finish()
+                } catch (e: kotlinx.coroutines.CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Toast.makeText(this@AddItemActivity, "Could not save the item. Please try again.", Toast.LENGTH_LONG).show()
+                } finally { btnSave.isEnabled = true }
             }
         }
     }

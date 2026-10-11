@@ -332,21 +332,40 @@ class AccountFragment : Fragment() {
             if (resultUri != null) {
                 // To avoid permission issues and ensure persistence, 
                 // we should copy the file to internal storage
-                val internalFile = File(requireContext().filesDir, "profile_photo.jpg")
-                requireContext().contentResolver.openInputStream(resultUri)?.use { input ->
-                    internalFile.outputStream().use { output ->
-                        input.copyTo(output)
+                // Using a unique filename to prevent Glide/System cache from showing old images
+                val timestamp = System.currentTimeMillis()
+                val newFileName = "profile_photo_$timestamp.jpg"
+                val internalFile = File(requireContext().filesDir, newFileName)
+                
+                try {
+                    requireContext().contentResolver.openInputStream(resultUri)?.use { input ->
+                        internalFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
                     }
+
+                    // Clean up old profile photos
+                    val oldImageUri = sharedPreferences.getString("profileImage", null)
+                    if (!oldImageUri.isNullOrEmpty()) {
+                        try {
+                            val oldFile = File(Uri.parse(oldImageUri).path!!)
+                            if (oldFile.exists() && oldFile.name.startsWith("profile_photo_")) {
+                                oldFile.delete()
+                            }
+                        } catch (e: Exception) {
+                            // Ignore cleanup errors
+                        }
+                    }
+
+                    val internalUri = Uri.fromFile(internalFile)
+                    sharedPreferences.edit()
+                        .putString("profileImage", internalUri.toString())
+                        .apply()
+
+                    loadProfileImage()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Failed to save image: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-
-                val internalUri = Uri.fromFile(internalFile)
-
-                sharedPreferences.edit()
-                    .putString("profileImage", internalUri.toString())
-                    .apply()
-
-                loadProfileImage()
-
             } else {
 
                 Toast.makeText(

@@ -16,6 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartInventaryManagement">
+        <activity android:name=".ForgotPasswordActivity" android:exported="false"
+            android:theme="@style/Theme.SmartInventory.Auth" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ResetPasswordActivity" android:exported="false"
+            android:theme="@style/Theme.SmartInventory.Auth" android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ProfilePhotoActivity"
             android:exported="false" />
@@ -31,18 +35,24 @@
 
         <activity
             android:name=".RegisterActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".CategoryItemsActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
             android:exported="false" />
         <activity
             android:name=".AddItemActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
             android:exported="false" /> <!-- pie chart -->
         <activity
             android:name=".AnalyticsActivity"
             android:exported="false" /> <!-- login activity -->
         <activity
             android:name=".LoginActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
 
             <!-- this help starts the 1st launcher activity -->
@@ -60,7 +70,15 @@
             android:exported="false" />
         <activity
             android:name=".OtpActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
+
+        <activity
+            android:name=".RetrieverDemoActivity"
+            android:exported="false"
+            android:label="SMS Retriever Demo"
+            android:theme="@style/Theme.SmartInventaryManagement" />
 
         <receiver
             android:name=".SmsBroadcastReceiver"
@@ -73,6 +91,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.SmartInventory.Auth"
             android:exported="true" />
 
         <provider

@@ -223,5 +223,10 @@
     <string name="invalid_otp">Invalid OTP. Please try again.</string>
     <string name="otp_verified">OTP Verified Successfully</string>
     <string name="admin_verification">Admin Verification</string>
+    <string name="sms_retriever_demo">SMS Retriever Demo</string>
+    <string name="phone_already_registered">User already registered.</string>
+    <string name="verification_failed">Verification failed: %1$s</string>
+    <string name="enter_otp">Please enter OTP</string>
+    <string name="sending_otp">Sending OTP...</string>
 </resources>
 
