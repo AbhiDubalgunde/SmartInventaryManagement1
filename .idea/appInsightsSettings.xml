@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.smartinventarymanagement" />
+                  <option name="mobileSdkAppId" value="1:828629349278:android:a13b7b6be0b3dba41b9c8f" />
+                  <option name="projectId" value="smart-inventory-37187" />
+                  <option name="projectNumber" value="828629349278" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
